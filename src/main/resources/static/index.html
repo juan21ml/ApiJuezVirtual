@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Prueba de Envío de Código</h1>
+<div class="form-container">
+    <h2>Enviar Código a la API</h2>
+    <form id="form">
+        <label for="sourceCode">Código:</label><br>
+        <textarea id="sourceCode" rows="4" cols="50">print('Hola Mundo')</textarea><br><br>
+        <label for="languageId">Lenguaje:</label><br>
+        <select id="languageId">
+            <option value="45">Python (3.8.1)</option>
+            <option value="71">Python (2.7.17)</option>
+            <option value="50">C (GCC 9.2.0)</option>
+            <option value="54">C++ (GCC 9.2.0)</option>
+            <option value="62">Java (OpenJDK 13.0.1)</option>
+            <option value="63">JavaScript (Node.js 12.14.0)</option>
+            <option value="78">Kotlin (1.3.70)</option>
+            <option value="51">C# (Mono 6.6.0.161)</option>
+            <option value="68">PHP (7.4.1)</option>
+            <option value="70">Ruby (2.7.0)</option>
+            <option value="80">TypeScript (3.7.4)</option>
+            <option value="73">Go (1.13.5)</option>
+            <option value="82">Swift (5.2)</option>
+        </select><br><br>
+
+
+        <label for="expectedOutput">Salida esperada:</label><br>
+        <textarea id="expectedOutput" rows="4" cols="50">Hola Mundo</textarea><br><br>
+
+        <button type="submit">Enviar Código</button>
+    </form>
+
+    <div id="resultado"></div>
+</div>
+
+<script>
+    document.getElementById("form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const data = {
+            sourceCode: document.getElementById("sourceCode").value,
+            expectedOutput: document.getElementById("expectedOutput").value,
+            languageId: document.getElementById("languageId").value
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/runCode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();  // Cambié .text() a .json()
+                document.getElementById("resultado").textContent = 'Resultado: ' + result.message;
+            } else {
+                document.getElementById("resultado").textContent = 'Error: ' + response.statusText;
+            }
+        } catch (error) {
+            document.getElementById("resultado").textContent = 'Error de red: ' + error;
+        }
+    });
+
+</script>
+
+</body>
+</html>
