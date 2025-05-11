@@ -2,14 +2,14 @@ package com.tutorial.consumo_api.controller;
 
 import com.tutorial.consumo_api.dto.PostDto;
 import com.tutorial.consumo_api.Service.PostService;
-import com.tutorial.consumo_api.Service.PostService.ResultResponse;  // Importa la clase ResultResponse
+import com.tutorial.consumo_api.Service.PostService.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:63342")
 public class PostController {
 
     @Autowired
@@ -23,3 +23,4 @@ public class PostController {
     }
 
 }
+
